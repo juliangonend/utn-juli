@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links Css & Js -->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
+    <!-- Nombre Documento -->
+    <title>Formulario</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Formulario Carga De Datos</h1>
+        </div>
+    
+        <form action="" method="post">
+           
+            <div class="user-details-1">
+                <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre">
+                
+                <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido">
+                
+                <label for="dni">DNI:</label>
+                    <input type="number" id="dni">
+            </div>
+            <div class="user-details-2">
+                <label for="fecha">Fecha Nacimiento:</label>
+                    <input type="date" id="fecha">
+                
+                <label for="domicilio">Domicilio</label>
+                    <input type="text" id="domicilio">
+                
+                <label for="localidad">Localidad</label>
+                    <input type="text" id="localidad">
+            </div>
+            
+            <div class="check-boxes">
+                <div class="title">      
+                    <h2>Idiomas que conoces</h2>
+                </div>
+                <div class="aling-checkbox">
+                    <label for="box1"> Español </label>
+                    <input type="checkbox" name="languages" id="box1">
+                </div>
+                <div class="aling-checkbox">
+                    <label for="box2">Ingles</label>
+                    <input type="checkbox" name="languages" id="box2">
+                </div>
+                <div class="aling-checkbox">
+                    <label for="box3">Frances</label>
+                    <input type="checkbox" name="languages" id="box3">
+                </div>
+                <div class="aling-checkbox">
+                    <label for="box4">Chino</label>
+                    <input type="checkbox" name="languages" id="box4">
+                </div>
+            </div>
+            <div class="language-level">
+                <div class="title">      
+                    <h2>Nivel de conocimiento</h2>
+                </div>
+                <div class="aling-meter">
+                    <label for="meter5"> Español </label>
+                    <meter id="meter5" min="0" max="100" value="50"></meter>
+                    <input type="range" id="range5" min="0" max="100" value="50" oninput="updateMeter('meter5', 'range5')">
+                </div>
+                <div class="aling-meter">
+                    <label for="meter6">Ingles</label>
+                    <meter id="meter6" min="0" max="100" value="50"></meter>
+                    <input type="range" id="range6" min="0" max="100" value="50" oninput="updateMeter('meter6', 'range6')">
+                </div>
+                <div class="aling-meter">
+                    <label for="meter7" >Frances</label>
+                    <meter id="meter7" min="0" max="100" value="50" ></meter>
+                    <input type="range" id="range7" min="0" max="100" value="50" oninput="updateMeter('meter7', 'range7')">
+                </div>
+                <div class="aling-meter">
+                    <label for="meter8">Chino</label>
+                    <meter id="meter8" min="0" max="100" value="50"></meter>
+                    <input type="range" id="range8" min="0" max="100" value="50" oninput="updateMeter('meter8', 'range8')">
+
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button type="submit" onClick="mostrarDatos()">Enviar</button>
+                <button type="reset">Borrar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Agregar aquí tu código JavaScript para modificar las barras de nivel -->
+    <script>
+        // Ejemplo de función JavaScript para modificar el valor de un medidor
+        function modificarNivel(idMedidor, nuevoValor) {
+            var medidor = document.getElementById(idMedidor);
+            medidor.value = nuevoValor;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+
+Apellido y Nombre: Gonzalez Endzweig Julián
+comision b
+mail: gonzalezjulian501@gmail.com
+legajo: 51561
+link github : https://github.com/juliangonend/ParcialMutanteLabI.git

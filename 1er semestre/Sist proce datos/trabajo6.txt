@@ -1,0 +1,122 @@
+Clase 6 - Trabajo Práctico SQL
+Julian Gonzalez 
+
+Actividad 1: 
+
+a. Agregar registros a la tabla Factura:
+
+-- Insertar el primer registro en la tabla Factura
+INSERT INTO factura (nrofact, codcliente, fecha, hora, codven)
+VALUES (1009, 104, '2023-09-30', '11:20:30', 3);
+
+-- Insertar el segundo registro en la tabla Factura
+INSERT INTO factura (nrofact, codcliente, fecha, hora, codven)
+VALUES (1012, 109, '2023-03-28', '09:10:00', 4);
+
+b. Agregar registros a la tabla Factura Cuerpo:
+
+-- Insertar los registros en la tabla Factura Cuerpo
+INSERT INTO factura_cuerpo (nrofact, codart, cantidad)
+VALUES
+    (1009, 605, 4),
+    (1009, 606, 3),
+    (1012, 500, 6);
+
+c.Insertar registros en la tabla Clientes:
+
+-- Primer Registro está repetido
+
+-- Insertar el segundo registro en la tabla Clientes
+INSERT INTO clientes (codcliente, apellido, nombre, codpostal)
+VALUES (111, 'Ramírez', 'Marcos', 5501);
+
+Actividad 2:
+
+1.	Extraer todos los registros de la tabla factura cuyo número de factura es mayor a 1000:
+	SCRIPT: SELECT * FROM factura WHERE nrofact > 1000;
+2.	Extraer los números de factura, fecha y hora de los códigos de clientes menores a 102
+	SCRIPT: SELECT nrofact, fecha, hora
+		FROM factura
+		WHERE codcliente < 102;
+3.	Se desea saber todos los números de factura que se emitieron después del 29-03-2023
+	SCRIPT: SELECT nrofact
+		FROM factura
+		WHERE fecha > '2023-03-29';
+4.	Se desea saber el número de factura y hora que corresponde a la factura número 1003
+	SCRIPT: SELECT nrofact, hora
+		FROM factura
+		WHERE nrofact = 1003;
+5.	Extraiga todos los registros de la tabla factura y el apellido y nombres del cuyo código de cliente es mayor o igual a 103.
+	SCRIPT: SELECT f.*, c.apellido, c.nombre
+		FROM factura AS f
+		JOIN clientes AS c ON f.codcliente = c.codcliente
+		WHERE f.codcliente >= 103;
+6.	Se desea conocer los números de facturas y apellidos de clientes de las ventas que se hicieron después de las 9:30 hs
+	SCRIPT: SELECT f.nrofact, c.apellido
+		FROM factura AS f
+		JOIN clientes AS c ON f.codcliente = c.codcliente
+		WHERE TIME(f.hora) > '09:30:00';
+7.	Se desea conocer los nros de clientes que compraron antes del día 29 de marzo de 2023 y después de las 10:00 hs	
+	SCRIPT: SELECT DISTINCT f.codcliente
+		FROM factura AS f
+		WHERE f.fecha < '2023-03-29' AND TIME(f.hora) > '10:00:00';
+8.	Se desea conocer todos los registros de las facturas que se emitieron a los clientes cuyo código es mayor o igual a 102 o los números de factura sean distintos de 1003
+	SCRIPT: SELECT *
+		FROM factura
+		WHERE (codcliente >= 102 OR nrofact <> 1003);
+9.	En qué localidad vive el cliente que compró más cantidad de artículos.
+	SCRIPT: SELECT l.localidad
+		FROM clientes AS c
+		JOIN localidades AS l ON c.codpostal = l.codpostal
+		WHERE c.codcliente = (
+    		SELECT c.codcliente
+    		FROM factura AS f
+    		JOIN clientes AS c ON f.codcliente = c.codcliente
+    		GROUP BY c.codcliente
+    		ORDER BY COUNT(f.nrofact) DESC
+    		LIMIT 1);
+10.	Listar los días que pasaron desde la fecha de compra de cada cliente por cada factura.
+	SCRIPT: SELECT c.codcliente, f.nrofact, DATEDIFF(CURRENT_DATE, f.fecha) AS dias_pasados
+		FROM clientes AS c
+		JOIN factura AS f ON c.codcliente = f.codcliente;
+11.	El cliente 108 debe comprar nuevamente el producto 601 un año después de la fecha de compra que figura en la factura 1011. Calcule la fecha de la nueva compra.
+	SCRIPT: SELECT DATE_ADD((SELECT f.fecha FROM factura AS f WHERE f.nrofact = 1011), INTERVAL 1 		YEAR) AS nueva_fecha_compra;
+12.	Calcule la comisión total que se debe liquidar al vendedor 4 en la factura 1008.
+	SCRIPT: SELECT (fc.cantidad * a.puv * v.comision) AS comision_total
+		FROM factura_cuerpo AS fc
+		INNER JOIN articulos AS a ON fc.codart = a.codart
+		INNER JOIN factura AS f ON fc.nrofact = f.nrofact
+		INNER JOIN vendedores AS v ON f.codven = v.legajo
+		WHERE fc.nrofact = 1008 AND f.codven = 4;
+13.	Liste las comisiones totales en $ que recibirá cada vendedor por cada factura que realizó. Muestre Apellido, Nombre, Nro de Factura, $ de comisión.
+	SCRIPT: SELECT v.apellido, v.nombre, f.nrofact, (fc.cantidad * a.puv * v.comision) AS comision_total
+		FROM factura AS f
+		INNER JOIN factura_cuerpo AS fc ON f.nrofact = fc.nrofact
+		INNER JOIN vendedores AS v ON f.codven = v.legajo
+		INNER JOIN articulos AS a ON fc.codart = a.codart;
+14.	Tomando como base el ejercicio Nro 13. Construya una consulta que evalúe si la comisión es mayor a 1200, mostrar la comisión y una leyenda que muestre “incrementar comisión”, caso contrario muestra la comisión.
+	SCRIPT: SELECT v.apellido, v.nombre, f.nrofact,
+    		CASE
+        		WHEN (fc.cantidad * a.puv * v.comision) > 1200 THEN 'Incrementar comisión'
+        		ELSE (fc.cantidad * a.puv * v.comision)
+    		END AS comision_evaluada
+		FROM factura AS f
+		INNER JOIN factura_cuerpo AS fc ON f.nrofact = fc.nrofact
+		INNER JOIN vendedores AS v ON f.codven = v.legajo
+		INNER JOIN articulos AS a ON fc.codart = a.codart;
+15.	Construir una consulta que muestre los datos del cliente, y en el caso de que el cliente tenga código postal igual a 1001 mostrar el rótulo “cargo por transporte 30%”, en el caso de que sea código postal 1002 mostrar el rótulo “cargo por transporte 40%”. De lo contrario mostrar el rótulo “Transporte local”.
+	SCRIPT: SELECT c.codcliente, c.apellido, c.nombre, c.codpostal,
+    		CASE
+        		WHEN c.codpostal = 1001 THEN 'Cargo por transporte 30%'
+        		WHEN c.codpostal = 1002 THEN 'Cargo por transporte 40%'
+        	ELSE 'Transporte local'
+    		END AS cargo_transporte
+		FROM clientes AS c;
+
+
+
+
+
+
+
+

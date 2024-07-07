@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../Js/script.js"></script>
+</head>
+<body>
+    <script>
+        
+function mostrarDatos() {
+    var vapellido = document.getElementById("apellido").value;
+    var vnombre = document.getElementById("nombre").value;
+    var vdni = document.getElementById("dni").value;
+    var vfechaNacimiento = document.getElementById("fecha_nacimiento").value;
+    var vdomicilio = document.getElementById("domicilio").value;
+    var vlocalidad = document.getElementById("localidad").value;
+
+    document.write("Apellido: " + vapellido + "<br>");
+    document.write("Nombre: " + vnombre + "<br>");
+    document.write("DNI: " + vdni + "<br>");
+    document.write("Fecha de Nacimiento: " + vfechaNacimiento + "<br>");
+    document.write("Domicilio: " + vdomicilio + "<br>");
+    document.write("Localidad: " + vlocalidad + "<br>");
+}
+
+    </script>
+    <div class="container">
+       <div class="title">
+        <h1>Formulario Carga De Datos</h1>
+       </div>
+        <form action method="post">
+            <label for="apellido" class="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="dni">DNI:</label>
+            <input type="number" id="dni" name="dni">
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+            <label for="domicilio">Domicilio:</label>
+            <input type="text" id="domicilio" name="domicilio">
+            <label for="localidad">Localidad:</label>
+            <input type="text" id="localidad" name="localidad">
+       
+            <div class="languages-form">
+                <div class="title">
+                    <h2>Idiomas que conoces</h2>
+                </div>
+                <div class="checkbox-lang">
+                    <input type="checkbox" name="languages" id="check1">
+                    <label for="check1">Español</label>
+                    <input type="checkbox" name="languages" id="check2">
+                    <label for="check2">Inglés</label>
+                    <input type="checkbox" name="languages" id="check3">
+                    <label for="check3">Francés</label>
+                    <input type="checkbox" name="languages" id="check4">
+                    <label for="check4">Chino</label>
+                </div>
+                <div class="range-lang">
+                    0------------- 50 ------------- 100
+                    <input type="range">
+                    0------------- 50 ------------- 100
+                    <input type="range">
+                    0------------- 50 ------------- 100  
+                    <input type="range">
+                    0------------- 50 ------------- 100
+                    <input type="range">
+                </div>
+            </div>
+    
+            <div class="buttons">
+                <button type="submit">Enviar</button>
+                <button type="reset">Borrar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
